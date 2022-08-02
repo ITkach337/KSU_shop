@@ -1,0 +1,39 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+
+{% block title_page %}
+<title>{{ product.name }}</title>
+{% endblock title_page %}
+
+{% block content %}
+<section class="main-section" id="service">
+    {% for prod in product%}
+    <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ prod.img.url }}" alt="..." style="width:60%" /></div>
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">{{ prod.name }}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>{{ prod.price }} грн</span>
+                        </div>
+                        <p class="lead">{{ prod.description }}</p>
+                        {% if request.user.is_authenticated %}
+                            <form action="{% url 'cart:cart_add' prod.id %}" method="post">
+                                {{ cart_product_form }}
+                                {% csrf_token %}
+                                <input type="submit" value="Добавить в корзину">
+                                {% else %}
+                                Зарегистрируйтесь в нашем магазине!
+                                <button onclick="window.location.href = {% url 'register' %}"
+                                        type="submit" class="btn btn-info">Зарегестрироваться
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+
+</section>
+{% endblock content %}
+

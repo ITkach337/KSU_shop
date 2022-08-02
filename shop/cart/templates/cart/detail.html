@@ -1,0 +1,57 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block title %}
+Ваша Корзина
+{% endblock %}
+{% block content %}
+<text style="font-size:30px"><strong>Ваша Корзина</strong></text>
+<table class="cart">
+    <thead>
+    <tr>
+        <th style="padding-left:40px;">Фото</th>
+        <th style="padding-left:150px;">Товар</th>
+        <th style="padding-left:150px;">Кол-во</th>
+        <th style="padding-left:150px;">Цена за еденицу</th>
+        <th style="padding-left:150px;">Цена</th>
+        <th style="padding-left:150px;">Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in cart %}
+    {% with product=item.product %}
+    <tr>
+        <td style="padding-left:40px;">
+            <a href="{% url 'product' product.id  %}" >
+                <img src="{{ product.img.url }}" style="width:200px;">
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'product' product.id  %}" style="padding-left:60px;color:black;text-decoration: none;">
+                {{ product.name }}
+            </a>
+        </td>
+        <td style="padding-left:150px;">{{ item.quantity }}</td>
+        <td class="num" style="padding-left:150px;">{{ item.price }} &#8372</td>
+        <td class="num" style="padding-left:150px;">{{ item.total_price }} &#8372</td>
+        <td style="padding-left:150px;"><a href="{% url 'cart:cart_remove' product.id %}"><button class="btn btn-danger">Удалить</button></a></td>
+    </tr>
+    {% endwith %}
+    {% endfor %}
+    <tr class="total">
+        <td style="font-size:20px;padding-left:40px;">Всего:   {{ cart.get_total_price }} грн </td>
+    </tr>
+    </tbody>
+</table>
+{% if cart.get_total_price > 0 %}
+<p class="text-right">
+    <a class="btn btn-outline-dark mt-auto" href="{% url 'orders:order_create'%}" style="margin-left:+40px">Оформить заказ</a>
+    <a class="btn btn-outline-dark mt-auto" href="{% url 'shop' %}" style="margin-left:+1040px">Назад в магазин</a>
+</p>
+{% else %}
+<p class="text-right">
+    <a class="btn btn-outline-dark mt-auto" href="{% url 'shop' %}" style="margin-left:+1040px">Назад в магазин</a>
+</p>
+{% endif %}
+
+{% endblock %}
+

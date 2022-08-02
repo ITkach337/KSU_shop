@@ -1,0 +1,70 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block title_page %}
+<title>Магазин</title>
+{% endblock title_page %}
+{% block content %}
+
+<section class="main-section paddind" id="Portfolio">
+    <!--main-section-start-->
+    <div style="margin-top: 2%; ">
+            <form action="{% url 'search' %}" method="post" class="d-flex justify-content-end"
+                  style="display:flex; align-items:center; justify-content: center;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6" style="margin-left:300px">
+                            {% csrf_token %}
+                            <input class="form-control md-6" name="search_query" type="search" placeholder="Поиск"
+                                   aria-label="Search">
+                        </div>
+                        <button class="btn btn-outline-success" style="width:70px" type="submit">Поиск</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+
+    <div class="container">
+        <h2>Наши товары</h2>
+
+    </div>
+
+    <div class="container">
+
+
+    </div>
+
+    <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% for post in prod %}
+                    <div class="col mb-5" style="width:30%">
+                        <div class="card h-100" >
+                            <!-- Product image-->
+                            <a class="text-center m-4" href="{% url 'product' post.id %}"><img class="card-img-top" src="{{ post.img.url}}" alt="..." style="width:80%" /></a>
+                            <!-- Product details-->
+                            <div class="card-body p-4" >
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ post.name }}</h5>
+                                    <!-- Product price-->
+                                    {{ post.price}} &#8372
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' post.id %}">Информация</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+</section>
+
+
+
+
+
+
+{% endblock content %}

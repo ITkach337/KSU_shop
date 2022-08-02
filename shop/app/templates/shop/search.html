@@ -1,0 +1,48 @@
+{% extends 'shop/main.html' %}
+{% block content %}
+
+
+<div style="margin-top: 2%; ">
+            <form action="{% url 'search' %}" method="post" class="d-flex justify-content-end"
+                  style="display:flex; align-items:center; justify-content: center;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6" style="margin-left:300px">
+                            {% csrf_token %}
+                            <input class="form-control md-6" name="search_query" type="search" placeholder="Поиск"
+                                   aria-label="Search">
+                        </div>
+                        <button class="btn btn-outline-success" style="width:70px" type="submit">Поиск</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+<div class="container" style="margin-top: 5%; ">
+    <div class="row">
+        {% for post in prod %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ post.img.url}}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ post.name }}</h5>
+                                    <!-- Product price-->
+                                    {{ post.price}} грн.
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' post.id %}">Информация</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h4>По вашему запросу: {{search_query}} ничего не найдено.</h4>
+                    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
